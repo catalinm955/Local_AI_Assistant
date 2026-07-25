@@ -1,6 +1,7 @@
-from local_ai_assistant.llm.clients.ollama import generate_response
 from local_ai_assistant.utils.logger import logger
+from local_ai_assistant.llm.factory import get_llm_client
 
+client = get_llm_client()
 logger.info("Local AI Assistant started!")
 while True:
 
@@ -16,7 +17,7 @@ while True:
     logger.info("User prompt received")
 
     try:
-        response = generate_response(user_input)
+        response = client.generate_response(user_input)
         print(f'AI: {response}')
     except ConnectionError as e:
         print(e)
