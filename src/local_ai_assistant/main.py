@@ -1,6 +1,7 @@
-from local_ai_assistant.llm.ollama import generate_response
+from local_ai_assistant.llm.clients.ollama import generate_response
+from local_ai_assistant.utils.logger import logger
 
-print("Local AI Assistant started!")
+logger.info("Local AI Assistant started!")
 while True:
 
     print('\nType a message or type "exit" to close the conversation')
@@ -12,7 +13,8 @@ while True:
     if not user_input.strip():
         print("Please input a prompt")
         continue
-    
+    logger.info("User prompt received")
+
     try:
         response = generate_response(user_input)
         print(f'AI: {response}')
