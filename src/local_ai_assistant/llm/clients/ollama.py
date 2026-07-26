@@ -5,9 +5,9 @@ from local_ai_assistant.llm.base import BaseLLMClient
 
 class OllamaClient(BaseLLMClient):
 
-    def __init__(self, model: str, url: str):
+    def __init__(self, model: str, base_url: str):
         self.model = model
-        self.url = url
+        self.base_url = base_url
 
     def generate_response(self, prompt: str) -> str:
         payload: dict[str, str | bool] = {
@@ -15,10 +15,12 @@ class OllamaClient(BaseLLMClient):
             "prompt": prompt,
             "stream": False
         }
+
         logger.info(f'Sending request to Ollama (model={self.model})')
+
         try:
             response = requests.post(
-                url=self.url,
+                url=self.base_url,
                 json=payload
             )
             

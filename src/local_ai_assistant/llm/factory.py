@@ -9,13 +9,13 @@ def get_llm_client():
     if provider == "ollama":
         client = OllamaClient(
             model=LLM_CONFIG["model"],
-            url=LLM_CONFIG["url"]
+            base_url=LLM_CONFIG["base_url"]
         )
 
     elif provider == "openai":
         client = OpenAIClient(
             model=LLM_CONFIG["model"],
-            url=LLM_CONFIG["url"],
+            base_url=LLM_CONFIG["base_url"],
             api_key=LLM_CONFIG["api_key"]
         )
     else:

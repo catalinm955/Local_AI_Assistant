@@ -5,9 +5,9 @@ import requests
 
 class OpenAIClient(BaseLLMClient):
 
-    def __init__(self, model: str, url: str, api_key: str):
+    def __init__(self, model: str, base_url: str, api_key: str):
         self.model = model
-        self.url = url
+        self.base_url = base_url
         self.api_key = api_key
 
     def generate_response(self, prompt: str) -> str:
@@ -21,7 +21,7 @@ class OpenAIClient(BaseLLMClient):
 
         try:
             response = requests.post(
-                url=self.url,
+                url=self.base_url,
                 json=payload
             )
         except requests.exceptions.ConnectionError as e:
