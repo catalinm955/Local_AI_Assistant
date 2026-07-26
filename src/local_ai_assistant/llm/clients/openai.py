@@ -5,10 +5,10 @@ import requests
 
 class OpenAIClient(BaseLLMClient):
 
-    def __init__(self, model: str, base_url: str, api_key: str):
-        self.model = model
-        self.base_url = base_url
-        self.api_key = api_key
+    def __init__(self, config: dict[str, str]):
+        self.model = config["model"]
+        self.base_url = config["base_url"]
+        self.api_key = config["api_key"]
 
     def generate_response(self, prompt: str) -> str:
         payload: dict[str, str  | bool] = {
