@@ -1,6 +1,7 @@
 from local_ai_assistant.utils.logger import logger
 from local_ai_assistant.llm.factory import get_llm_client
 
+
 client = get_llm_client()
 logger.info("Local AI Assistant started!")
 while True:

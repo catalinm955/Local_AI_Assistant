@@ -1,5 +1,6 @@
 import logging
 
+
 logger = logging.getLogger("Local_AI_Assistant")
 logger.setLevel(logging.INFO)
 
