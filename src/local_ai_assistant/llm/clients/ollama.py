@@ -1,13 +1,14 @@
 import requests
 from local_ai_assistant.utils.logger import logger
 from local_ai_assistant.llm.base import BaseLLMClient
+from local_ai_assistant.config.llm import LLMConfig
 
 
 class OllamaClient(BaseLLMClient):
 
-    def __init__(self, config: dict[str, str]):
-        self.model = config["model"]
-        self.base_url = config["base_url"]
+    def __init__(self, llm_config: LLMConfig):
+        self.model = llm_config.model
+        self.base_url = llm_config.base_url
 
     def generate_response(self, prompt: str) -> str:
         payload: dict[str, str | bool] = {
