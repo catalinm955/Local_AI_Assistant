@@ -1,13 +1,14 @@
 import pytest
 import requests
 from typing import Any
+from collections.abc import Iterator
 
 from local_ai_assistant.llm.clients.ollama import OllamaClient
 from local_ai_assistant.config.llm import LLMConfig
 from local_ai_assistant.llm.base import BaseLLMClient
 
 
-class FakeObject:
+class FakeResponse:
 
     def raise_for_status(self):
         pass
@@ -16,8 +17,8 @@ class FakeObject:
         return {"response": "test"}
 
 
-def fake_post(*args: Any, **kwargs: Any) -> FakeObject:
-    return FakeObject()
+def fake_post(*args: Any, **kwargs: Any) -> FakeResponse:
+    return FakeResponse()
 
 
 def fake_error(*args: Any, **kwargs: Any) -> None:
@@ -80,3 +81,36 @@ def test_http_error(
         ollama_client.generate_response("hello")
 
 
+class FakeStreamResponse:
+
+    def raise_for_status(self):
+        pass
+
+    def iter_lines(self) -> Iterator[bytes]:
+        yield b'{"response": "Fac", "done": false}'
+        yield b'{"response": "i", "done": false}'
+        yield b'{"response": "?", "done": false}'
+        yield b'{"response": "", "done": false}'
+        yield b'{"response": "", "done": true}'
+
+
+def fake_stream_post(*arg: Any, **kwargs: Any) -> FakeStreamResponse:
+    return FakeStreamResponse()
+
+
+def test_stream_response(
+    monkeypatch: pytest.MonkeyPatch,
+    ollama_client: BaseLLMClient,
+    ):
+
+    monkeypatch.setattr(requests, "post", fake_stream_post)
+
+    response = list(ollama_client.stream_response("Test"))
+
+    assert response == [
+        "Fac",
+        "i",
+        "?"
+    ]
+
+    
