@@ -11,12 +11,3 @@ class Role(Enum):
 class Message:
     role: Role
     content: str
-
-message = Message(
-    role=Role.USER,
-    content="Hello"
-)
-
-print(message)
-print(message.role)
-print(message.role.value)
